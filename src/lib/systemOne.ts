@@ -36,7 +36,7 @@ export async function decide(text: string, currentColor: string) {
   );
   const colors = [...new Set([...literals, ...COLORS])].slice(0, 25);
   const actions = {
-    set_color: "Explicitly requests changing the square color",
+    set_color: "Requests changing the square color, including a color by itself (red, azul, #ff8800)",
     get_color: "Asks what color the square currently is",
     none: "Unrelated, negated, or ambiguous request; do not change anything",
   };
@@ -51,7 +51,7 @@ export async function decide(text: string, currentColor: string) {
         action: {
           type: "choice",
           instructions:
-            "Identify the user's intended action. Do not treat quoted examples or negated commands as requests to change the color.",
+            "This is a color-control interface. A standalone color name in any language or CSS color value is a request to set the square to that color, even without a verb. Identify the user's intended action. Do not treat quoted examples or negated commands as requests to change the color.",
           criteria: actions,
         },
         color: {
