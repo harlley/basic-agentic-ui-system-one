@@ -1,5 +1,5 @@
 import { IconLoader2, IconSend } from "@tabler/icons-react";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import {
   InputGroup,
   InputGroupButton,
@@ -20,6 +20,7 @@ export function ChatSidebar({
   isLoading,
   disabled,
 }: ChatSidebarProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState("");
   const isDisabled = isLoading || disabled;
 
@@ -29,6 +30,7 @@ export function ChatSidebar({
     if (!trimmed || isDisabled) return;
     onSendMessage(trimmed);
     setInputValue("");
+    inputRef.current?.focus();
   };
 
   return (
@@ -43,11 +45,12 @@ export function ChatSidebar({
         <form onSubmit={handleSubmit}>
           <InputGroup className="bg-background/80 h-12 shadow-sm border-border/50 focus-within:ring-primary/20 transition-all">
             <InputGroupInput
+              ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Write your message..."
               className="text-sm px-4"
-              disabled={isDisabled}
+              disabled={disabled}
             />
             <InputGroupButton
               type="submit"

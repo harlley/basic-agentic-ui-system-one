@@ -26,7 +26,7 @@ export function useChat() {
         reply = `Changed the square to ${color}.`;
       } else {
         reply =
-          "Please name a specific color to set, or ask what color the square is.";
+          "Try a color, character, object, or mood — or ask what color the square is.";
       }
     } catch (error) {
       reply =

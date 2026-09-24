@@ -3,7 +3,7 @@ import type { UIMessage } from "@/types/chat";
 
 const INITIAL_MESSAGE: UIMessage = {
   id: 1,
-  text: "Hi! I can change the square color for you. Ask me to set a color or ask what color it currently is!",
+  text: "Hi! Let’s find a color. Try “blue”, “Luigi’s color”, “red + yellow”, or “#ff8800”. You can also ask me to suggest a color or tell you the current one.",
   sender: "bot",
 };
 
