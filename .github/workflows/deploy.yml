@@ -1,0 +1,27 @@
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: deploy-space
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run lint && bun run build
+      - run: cp SPACE.md dist/README.md
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install huggingface_hub==1.2.3
+      - name: Publish static Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: hf upload harlley/basic-agentic-ui-system-one dist . --repo-type space --commit-message "Deploy $GITHUB_SHA"
