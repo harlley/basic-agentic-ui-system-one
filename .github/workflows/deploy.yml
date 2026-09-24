@@ -24,4 +24,14 @@ jobs:
       - name: Publish static Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: hf upload harlley/basic-agentic-ui-system-one dist . --repo-type space --commit-message "Deploy $GITHUB_SHA"
+        run: |
+          python - <<'PYTHON'
+          import os
+          from huggingface_hub import HfApi
+          HfApi().upload_folder(
+              repo_id="harlley/basic-agentic-ui-system-one",
+              repo_type="space",
+              folder_path="dist",
+              commit_message=f"Deploy {os.environ['GITHUB_SHA']}",
+          )
+          PYTHON
